@@ -1,0 +1,123 @@
+After extracting both path.py and func.py to the same folder, the PATH program
+can be run using the command
+
+path.py -h
+
+This gives a list of all the flags for customizing the simulation.
+
+The program can be used in two different modes - "path" and "rock" mode. "path"
+mode calculates the most probable pathways between two equilibrium states of a
+protein. "rock" mode calculates the trajectory of a single structure along its
+nth vibrational mode. The default mode is "path" which can be changed to "rock"
+using the '-ty' flag. Further customization options with each mode is described
+below.
+
+#####################
+    "path" mode:
+#####################
+
+The most probable pathway between two equilibrium states of a protein can be
+calculated used the following command.
+
+path.py -f1 <start structure> -f2 <end structure>
+
+The two structures are PDB files. To successfully calculate the conformational
+change trajectories using the PATH program, the number of atoms in both
+the structures must be the same and so should the order of atoms in both the
+files.
+
+The program outputs the transition state (trans.pdb) and the trajectory (traj.pdb)
+connecting the two end states. Both these files are in the PDB format. It also
+outputs the energy (engy) of each structure along the trajectory relative to the
+two end states.
+
+The program also generates an output parameter file (path_log) which contains
+the RMSD between the two states of the protein, the difference in energy between
+the two minima, based on the "path" potential (described below), the time to
+the transition state from the starting structure (tbar left), time to the final
+state from the transition state (tbar right) and the energy of the transition
+state relative to the final state (Utrans).
+
+-n flag:
+
+The number of structures in the trajectory that the program outputs can be
+specified using the '-n' flag in the above command in the following way
+
+path.py -f1 <start structure> -f2 <end structure> -n 11
+
+This commands outputs a trajectory with 11 structures, which includes the two
+end states as well.
+
+-ca flag:
+
+By default, the above commands performs an all atom simulation. But, it is also
+possible to run an all atom simulation or a C-alpha only simulation using the
+'-ca' flag.
+
+path.py -f1 <start structure> -f2 <end structure> -ca 1
+
+This command performs a C-alpha only simulation.
+
+As PATH builds a Hessian matrix for both the structures which is later
+diagonalized for calculating the trajectory, the size of the protein determines
+how long it takes it calculate the trajectory. An all atom simulation of
+proteins which have less than 1000 atoms can be run on Desktop computers (8 GB
+RAM with i5 processor). For large systems, it is recommended to run PATH
+calculations on computers with larger memory. If only the overall dynamics of
+the protein is of interest then an alternative method to simulate large proteins
+is to run C-alpha only simulations. We have observed that the C-alpha only
+simulation can reproduce most of the essential dynamic information about the
+trajectory that an all atom simulation generates.
+
+
+#####################
+    "rock" mode:
+#####################
+
+This mode of the program calculates the trajectory along the nth vibrational
+mode of a single structure. It can be run using the command
+
+path.py -f1 <structure> -ty rock
+
+Apart from the '-n' and '-ca' flags that behave in the same manner as in the
+"path" mode, there are several additions flags that could be used with the
+"rock" mode.
+
+-m flag:
+
+This flag can be used to specify the nth vibrational mode along which the
+rocking trajectory is calculated. By default the first vibrational mode is used.
+
+-exag flag:
+
+Often the magnitude of displacement along the nth vibrational mode is small and
+may require an increase in the magnitude to make the displacement more
+perceptible. This flag can use used to specify a factor that is then multiplied
+to the displacement. The default value is 10.
+
+-c flag:
+
+Constraints can be applied between CA atoms of pairs of aminoacids by inputting
+a constraints file using the '-c' flag. The constraints file consists three
+columns - the first column specifies the magnitude of the constraints relative
+to the regular force constants, and the other two columns specify the aminoacid
+pairs that are constrained. For example the constraint files can consist of the
+following lines
+
+10 A37 A43
+100 A57 B74
+
+The first line constrains the CA atoms of aminoacids 37 and 43 in chain A with a
+force constant of magnitude 10 times greater than the regular force constants.
+The second line constraints CA atoms of aminoacid 57 in chain A to aminoacid 74
+in chain B with a force constant 100 times greater than the regular force
+constants.
+
+#####################
+  "path" potential:
+#####################
+
+For all atom simulations, the program uses the ANM potential energy function
+described in the Chandrasekaran et al. paper (doi: 10.1063/1.4941599). For CA
+only simulations, the program uses a mass weighted version of the empirical
+potential described in the Hinsen et al. paper (doi: 10.1016/S0301-0104(00)00222-6)
