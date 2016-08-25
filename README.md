@@ -26,4 +26,4 @@ You can download the libraries, that path depends on, from the following links
 
 #### Resources
 
-The program path is the python implementation of the PATH algorithm (previously MinActionPATH) described in [Chandrasekaran et al.](http://scitation.aip.org/content/aca/journal/sdy/3/1/10.1063/1.4941599) and [Franklin et. al](http://nar.oxfordjournals.org/content/35/suppl_2/W477)
+The program path is the python implementation of the PATH algorithm (previously MinActionPATH) described in [Chandrasekaran et al. (2016)](http://scitation.aip.org/content/aca/journal/sdy/3/1/10.1063/1.4941599) and [Franklin et. al (2007)](http://nar.oxfordjournals.org/content/35/suppl_2/W477)
