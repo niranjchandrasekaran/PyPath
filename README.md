@@ -5,7 +5,7 @@
 
 It also computes the trajectory along the nth normal mode of a single structure.
 
-Download **_path.py_** and **_func.py_** to the same folder in your local computer and refer **_running-path_** for instructions on running the program
+Download **_path.py_** and **_func.py_** to the same folder in your local computer and refer **_running-path_** for instructions on how to run the program
 
 #### Dependencies
 
