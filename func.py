@@ -152,7 +152,6 @@ def add_constr(hess,constr,ca,pdb,opt,cutoff,aa):
 		return hess
 	else:
 		arr = constr_process(constr,ca)
-		print arr
 		for idx in range(0,len(arr)):
 			mat = [[ 0 for x in xrange(3)] for x in xrange(3)]
 			mag = arr[idx][0]

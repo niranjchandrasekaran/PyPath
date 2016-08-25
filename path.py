@@ -1,11 +1,5 @@
 #!/usr/bin/env python
 
-"""PATH v3.0
-Author: Srinivas Niranj Chandrasekaran
-Affliation: Carter Lab, UNC-Chapel Hill; Bailey Lab, UMass-Worcester
-Email: Srinivas.Chandrasekaran@umassmed.edu
-Date: August 23rd 2016"""
-
 from math import *
 import sys
 import os.path
@@ -18,14 +12,14 @@ import scipy.linalg as sp
 start_time = time.time()
 
 parser = argparse.ArgumentParser(description = 'Computes the most probable pathway connecting two equilibrium states of a protein or rock a structure along the normal modes',\
-	epilog='For more information check the README file')
+	epilog='For more information check the running-path file')
 parser.add_argument('-ty',metavar='',type=str,default="path",help='use "rock" for rocking the structures [default:"path"]')
 parser.add_argument('-m',metavar='',type=int,default=1,help='The nth mode along which the structure should be rocked [default:1] [optional]')
 parser.add_argument('-f1',metavar='',required=True,help='Initial pdb [required]')
 parser.add_argument('-f2',metavar='',help='Final pdb [required only for "path"]')
 parser.add_argument('-n',metavar='',type=int,default='3',help='Number of conformations [default:3] [optional]')
 parser.add_argument('-ca',metavar='',type = int,default=0,help='1 for CA only [default:0 all atom] [optional]')
-parser.add_argument('-c',metavar='',default=None,help='Constraints between CA atoms of aminoacids [can be used only with "rock"] [optional]')
+parser.add_argument('-c',metavar='',default=None,help='Constraints between CA atoms of aminoacids [optional]')
 parser.add_argument('-exag',metavar='',default=10,type=float,help='The motion is exaggerated such that the displacement from equilibrium is perceptible [default:10] [optional]')
 
 args = parser.parse_args()
@@ -58,7 +52,7 @@ class Input(object):
 			self.opt = 'CA'
 			self.space = ' CA'
 
-		if args.c != None and self.type == 'rock':
+		if args.c != None:
 			self.c = func.readfile(args.c)
 		else:
 			self.c = None
