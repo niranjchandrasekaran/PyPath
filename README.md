@@ -9,7 +9,7 @@ Download **_path.py_** and **_func.py_** to the same folder in your local comput
 
 #### Dependencies
 
-Path is written in python and it relies on a few recipes that are a part of the __NumPy__, __SciPy__ and __Biopython__ libraries. Computers that use Python 2.6 or lower might also have to install __argparse__. The version of Python on your Unix/Linux machine can be checked using the following command
+Path is written in python and it relies on a few recipes that are a part of the _NumPy_, _SciPy_ and _Biopython_ libraries. Computers that use Python 2.6 or lower might also have to install _argparse_. The version of Python on your Unix/Linux machine can be checked using the following command
 
 ```python
 python -V
