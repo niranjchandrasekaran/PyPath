@@ -17,6 +17,9 @@ python -V
 You can download the libraries, that path depends on, from the following links
 
 -[Numpy](http://www.numpy.org/)
+
 -[Scipy](http://www.scipy.org/)
+
 -[Biopython](http://biopython.org/wiki/Main_Page)
+
 -[Argparse](https://docs.python.org/3/library/argparse.html)
