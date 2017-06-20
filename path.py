@@ -24,7 +24,7 @@ start_time = time.time()
 
 parser = argparse.ArgumentParser(description='Computes the most probable pathway connecting two equilibrium states of a protein. It can also rock a structure along one of its normal modes',\
 	epilog='For more information check the running-path file')
-parser.add_argument('-mpp',action='store_true',help='Use this flag for computing the most probable path')
+parser.add_argument('-path',action='store_true',help='Use this flag for computing the most probable path')
 parser.add_argument('-rock',action='store_true',help='Use this flag for rocking the structure along nth normal mode')
 parser.add_argument('-l',metavar='',required=True,help='The starting structure [PDB file]')
 parser.add_argument('-r',metavar='',help='Final structure [PDB file] (Required only for -path mode)')
@@ -35,15 +35,13 @@ parser.add_argument('-exag',metavar='',default=10.0,type=float,help='The motion 
 
 args = parser.parse_args()
 
-# TODO: Figure out why -path doesn't work
-
 if __name__ == '__main__':
-	if args.mpp:
+	if args.path:
 		pass
 	elif args.rock:
 		pass
 	else:
-		sys.stdout.write('\nUse the flag -mpp (for Most Probabele Path) or -rock (for Rocking the structure)\n\n')
+		sys.stdout.write('\nUse the flag -path (for Most Probabele Path) or -rock (for Rocking the structure)\n\n')
 
 #############################
 ####Functions and Classes####
