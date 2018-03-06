@@ -7,6 +7,7 @@ from report.length_check import LengthCheck
 from parameter.input_parameters import Parameters
 from pdb.align import Align
 from path.hessian import BuildHessian
+from path.transition_state import ThermoDynamics
 
 parser = argparse.ArgumentParser(description='PATH algorithm')
 subparser = parser.add_subparsers(dest='option')
@@ -58,9 +59,12 @@ if __name__ == '__main__':
         hessian_left = build_hessian.hessian(aligned_left, pdb_left, parameters.c_alpha)
         hessian_right = build_hessian.hessian(aligned_right, pdb_right, parameters.c_alpha)
 
+        thermo = ThermoDynamics()
+
+        work_endpoint = thermo.work(pdb_left.coord, pdb_right.coord)
+
+        energy_left = thermo.energy(hessian_left, work_endpoint)
+        energy_right = thermo.energy(hessian_right, work_endpoint)
 
     elif args.option == 'smooth':
         pdb = PDBRead(args.structure)
-
-    else:
-        print(parser.format_help())
