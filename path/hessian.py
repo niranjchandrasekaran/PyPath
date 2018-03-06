@@ -105,22 +105,22 @@ class BuildHessian(object):
 
         sidechain_torsion_atoms = []
 
-        for aa in range(len(amino_acid_no)-1):
+        for aa in range(len(amino_acid_no) - 1):
             if amino_acid_present[aa]:
-                if aa == len(amino_acid_no)-2:
+                if aa == len(amino_acid_no) - 2:
                     end = len(amino_acid_no)
                     if amino_acid[aa] != 'GLY' and amino_acid[aa] != 'ALA':
                         tetrad_atoms_list = sidechain.amino_acid(amino_acid[aa], atom_name, start, end)
                         for tetrad in range(len(tetrad_atoms_list)):
                             sidechain_torsion_atoms.append(tetrad_atoms_list[tetrad])
                 else:
-                    if amino_acid_no[aa+1] != amino_acid_no[aa]:
-                        end = aa+1
+                    if amino_acid_no[aa + 1] != amino_acid_no[aa]:
+                        end = aa + 1
                         if amino_acid[aa] != 'GLY' and amino_acid[aa] != 'ALA':
                             tetrad_atoms_list = sidechain.amino_acid(amino_acid[aa], atom_name, start, end)
                             for tetrad in range(len(tetrad_atoms_list)):
                                 sidechain_torsion_atoms.append(tetrad_atoms_list[tetrad])
-                        start = aa+1
+                        start = aa + 1
 
         for tetrad in range(len(sidechain_torsion_atoms)):
             tetrad_coord = []
@@ -234,9 +234,11 @@ class BuildHessian(object):
                     for x in range(constant.dim):
                         for y in range(constant.dim):
                             hessian[(3 * atom_i) + x][(3 * atom_j) + y] = -(
-                                    force_constant * (coord[atom_i][x] - coord[atom_j][y]) * (
+                                    force_constant * (coord[atom_i][x] - coord[atom_j][x]) * (
                                     coord[atom_i][y] - coord[atom_j][y])) / (distance[atom_i][atom_j] * (
                                     np.sqrt(mass.amino_acid_mass(amino_acid[atom_i])) * np.sqrt(
                                 mass.amino_acid_mass(amino_acid[atom_j]))))
+
+                            hessian[(3 * atom_i) + x][(3 * atom_i) + y] += -hessian[(3 * atom_i) + x][(3 * atom_j) + y]
 
         return hessian

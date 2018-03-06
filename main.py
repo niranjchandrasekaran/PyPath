@@ -7,7 +7,9 @@ from report.length_check import LengthCheck
 from parameter.input_parameters import Parameters
 from pdb.align import Align
 from path.hessian import BuildHessian
-from path.transition_state import ThermoDynamics
+from path.thermo import ThermoDynamics
+import scipy.linalg as sp
+from path.transition_state import Time, TransitionState
 
 parser = argparse.ArgumentParser(description='PATH algorithm')
 subparser = parser.add_subparsers(dest='option')
@@ -43,6 +45,7 @@ args = parser.parse_args()
 if __name__ == '__main__':
     if args.option == 'path':
         parameters = Parameters(args)
+        constant = Constant()
 
         pdb_left = PDBRead(args.start, parameters.c_alpha)
         pdb_right = PDBRead(args.end, parameters.c_alpha)
@@ -61,10 +64,26 @@ if __name__ == '__main__':
 
         thermo = ThermoDynamics()
 
-        work_endpoint = thermo.work(pdb_left.coord, pdb_right.coord)
+        work_endpoint = thermo.work(aligned_left, aligned_right)
 
         energy_left = thermo.energy(hessian_left, work_endpoint)
         energy_right = thermo.energy(hessian_right, work_endpoint)
+
+        eval_left, evec_left = sp.eigh(hessian_left, eigvals=(0, (pdb_left.natoms * constant.dim) - 1))
+        eval_right, evec_right = sp.eigh(hessian_right, eigvals=(0, (pdb_right.natoms * constant.dim) - 1))
+
+        time = Time()
+
+        tbar_left, force_constant_left = time.time_to_transition_state(eval_left)
+        tbar_right, force_constant_right = time.time_to_transition_state(eval_right)
+
+        transition_state = TransitionState(tbar_left, tbar_right, force_constant_left, force_constant_right, eval_left,
+                                           eval_right, evec_left, evec_right, aligned_left, aligned_right,
+                                           pdb_left.natoms)
+
+        energy_left = thermo.energy(hessian_left, transition_state.work_left)
+        energy_right = thermo.energy(hessian_right, transition_state.work_right)
+
 
     elif args.option == 'smooth':
         pdb = PDBRead(args.structure)
