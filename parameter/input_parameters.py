@@ -8,18 +8,7 @@ class Parameters(object):
         else:
             self.c_alpha = False
 
-        try:
-            self.mode = args.mode
-        except AttributeError:
-            self.mode = None
-
-        try:
-            with open(args.cons, 'r') as fopen:
-                self.cons = [line.rstrip() for line in fopen]
-        except TypeError:
-            self.cons = None
-
-        try:
-            self.exaggeration = args.exag
-        except AttributeError:
-            self.exaggeration = None
+        if args.eval:
+            self.eval = True
+        else:
+            self.eval = False
