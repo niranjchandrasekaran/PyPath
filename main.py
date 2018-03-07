@@ -10,6 +10,7 @@ from path.hessian import BuildHessian
 from path.thermo import ThermoDynamics
 import scipy.linalg as sp
 from path.transition_state import Time, TransitionState
+from pdb.write import PDBWrite
 
 parser = argparse.ArgumentParser(
     description='PATH algorithm - Compute the most probable path connecting two equilibrium states of a biomolecule')
@@ -63,3 +64,7 @@ if __name__ == '__main__':
 
     energy_left = thermo.energy(hessian_left, transition_state.work_left)
     energy_right = thermo.energy(hessian_right, transition_state.work_right)
+
+    PDBWrite(transition_state.xbar.reshape(pdb_left.natoms, constant.dim), pdb_left, 'trans.pdb')
+
+
