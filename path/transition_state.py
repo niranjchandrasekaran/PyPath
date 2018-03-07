@@ -25,6 +25,9 @@ class Time(object):
 
         return 7.0 / average_force_constant, average_force_constant
 
+    def time_steps(self):
+        pass
+
 
 class TransitionState(object):
 
