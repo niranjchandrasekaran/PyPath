@@ -67,4 +67,5 @@ if __name__ == '__main__':
 
     PDBWrite(transition_state.xbar.reshape(pdb_left.natoms, constant.dim), pdb_left, 'trans.pdb')
 
-
+    t, energy_ratio = time.time_steps(tbar_left, tbar_right, force_constant_left, force_constant_right,
+                                      parameters.n_conf)

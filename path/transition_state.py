@@ -25,9 +25,41 @@ class Time(object):
 
         return 7.0 / average_force_constant, average_force_constant
 
-    def time_steps(self):
-        pass
+    def time_steps(self, tbar_left, tbar_right, fc_left, fc_right, nconf):
+        intermediate = nconf - 2
 
+        step_size = 2.0 / (intermediate+1)
+
+        ratio = [0]
+
+        current_step_size = step_size
+
+        tf = tbar_left + tbar_right
+
+        for step in range(intermediate):
+            if current_step_size >= 1.0:
+                ratio.append(2.0 - current_step_size)
+            else:
+                ratio.append(current_step_size)
+            current_step_size += step_size
+
+        ratio.append(0)
+
+        t = []
+
+        for step in range(nconf):
+            if step <= nconf/2:
+                if ratio[step] == 0:
+                    t.append(0)
+                else:
+                    t.append(float(7+np.log(ratio[step])) / float(fc_left))
+            else:
+                if ratio[step] == 0:
+                    t.append(tf)
+                else:
+                    t.append(tf - (float(7+np.log(ratio[step])) / float(fc_right)))
+
+        return t, ratio
 
 class TransitionState(object):
 
