@@ -9,8 +9,8 @@ from pdb.align import Align
 from path.hessian import BuildHessian
 from path.thermo import ThermoDynamics
 import scipy.linalg as sp
-from path.transition_state import Time, TransitionState
-from pdb.write import PDBWrite
+from path.dynamics import Time, Transition
+from pdb.write import PDBWrite, PDBTrajectoryWrite
 
 parser = argparse.ArgumentParser(
     description='PATH algorithm - Compute the most probable path connecting two equilibrium states of a biomolecule')
@@ -58,14 +58,17 @@ if __name__ == '__main__':
     tbar_left, force_constant_left = time.time_to_transition_state(eval_left)
     tbar_right, force_constant_right = time.time_to_transition_state(eval_right)
 
-    transition_state = TransitionState(tbar_left, tbar_right, force_constant_left, force_constant_right, eval_left,
-                                       eval_right, evec_left, evec_right, aligned_left, aligned_right,
-                                       pdb_left.natoms)
+    t_series, energy_ratio = time.time_steps(tbar_left, tbar_right, force_constant_left, force_constant_right,
+                                             parameters.n_conf)
 
-    energy_left = thermo.energy(hessian_left, transition_state.work_left)
-    energy_right = thermo.energy(hessian_right, transition_state.work_right)
+    transition = Transition(tbar_left, tbar_right, force_constant_left, force_constant_right, eval_left,
+                            eval_right, evec_left, evec_right, aligned_left, aligned_right, t_series,
+                            pdb_left.natoms)
 
-    PDBWrite(transition_state.xbar.reshape(pdb_left.natoms, constant.dim), pdb_left, 'trans.pdb')
+    energy_left = thermo.energy(hessian_left, transition.work_left)
+    energy_right = thermo.energy(hessian_right, transition.work_right)
 
-    t, energy_ratio = time.time_steps(tbar_left, tbar_right, force_constant_left, force_constant_right,
-                                      parameters.n_conf)
+    PDBWrite(transition.xbar.reshape(pdb_left.natoms, constant.dim), pdb_left, 'trans.pdb')
+
+    PDBTrajectoryWrite(transition.trajectory_coord.reshape(parameters.n_conf, pdb_left.natoms, constant.dim), pdb_left,
+                       'trajectory.pdb')
