@@ -4,11 +4,13 @@ import argparse
 from pdb.read import PDBRead
 from parameter.constants import Constant
 from report.length_check import LengthCheck
+from report.fileprint import FilePrint
 from parameter.input_parameters import Parameters
 from pdb.align import Align
 from path.hessian import BuildHessian
 from path.thermo import ThermoDynamics
 import scipy.linalg as sp
+import numpy as np
 from path.dynamics import Time, Transition
 from pdb.write import PDBWrite, PDBTrajectoryWrite
 
@@ -58,8 +60,8 @@ if __name__ == '__main__':
     tbar_left, force_constant_left = time.time_to_transition_state(eval_left)
     tbar_right, force_constant_right = time.time_to_transition_state(eval_right)
 
-    t_series, energy_ratio = time.time_steps(tbar_left, tbar_right, force_constant_left, force_constant_right,
-                                             parameters.n_conf)
+    t_series, energy_series = time.time_steps(tbar_left, tbar_right, force_constant_left, force_constant_right,
+                                             energy_left, energy_right, parameters.n_conf)
 
     transition = Transition(tbar_left, tbar_right, force_constant_left, force_constant_right, eval_left,
                             eval_right, evec_left, evec_right, aligned_left, aligned_right, t_series,
@@ -72,3 +74,6 @@ if __name__ == '__main__':
 
     PDBTrajectoryWrite(transition.trajectory_coord.reshape(parameters.n_conf, pdb_left.natoms, constant.dim), pdb_left,
                        'trajectory.pdb')
+
+    file_print = FilePrint()
+    file_print.print_multi_array(np.column_stack((t_series, energy_series)), 'path-energy')
