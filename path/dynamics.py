@@ -180,7 +180,6 @@ class Transition(object):
                             xlr[dim][dim] = -sinh(self.eval2[dim] * (self.t_series[step] - self.tf)) / sinh(
                                 self.eval2[dim] * self.tbar_right)
                         except OverflowError:
-                            # continue
                             xlr[dim][dim] = np.exp(self.eval2[dim] * (self.t_series[step] - self.tf - self.tbar_right))
 
             if self.t_series[step] < self.tbar_left:
