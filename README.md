@@ -37,12 +37,12 @@ which displays the following help menu
 ```
 optional arguments:
   -h, --help  show this help message and exit
-  -start        Initial equilibrium state [PDB file] [Required]
-  -end         Final equilibrium state [PDB file] [Required]
+  -start      Initial equilibrium state [PDB file] [Required]
+  -end        Final equilibrium state [PDB file] [Required]
   -nconf      The number of conformations in the trajectory [default: 3]
   -calpha     If only C-alpha atoms are to be used in the simulation 
-                  [default: all atom]
-  -eval         print eigenvalues and eigenvectors to file
+              [default: all atom]
+  -eval       print eigenvalues and eigenvectors to file
 
 ```
 
