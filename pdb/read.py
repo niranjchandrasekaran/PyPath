@@ -1,6 +1,12 @@
 class PDBRead(object):
 
     def __init__(self, filename, calpha):
+        """
+        Generate the pdb object
+
+        :param filename: name of the PDB file
+        :param calpha: True for CA only simulation and False for all atom simulation
+        """
         with open(filename, 'r') as fopen:
             data = [line.rstrip().split() for line in fopen if
                    not line.rstrip() == 'TER' and not line.rstrip() == 'ENDMDL']

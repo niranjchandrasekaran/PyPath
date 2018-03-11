@@ -3,6 +3,12 @@ import sys
 class LengthCheck(object):
 
     def __init__(self, len_pdb1, len_pdb2):
+        """
+        Checks to make sure the number of atoms of the two end states are equal
+
+        :param len_pdb1: number of atoms of the initial state
+        :param len_pdb2: number of atoms of the final state
+        """
         if len_pdb1 != len_pdb2:
             print('\n@> The two molecules are unequal in size.\n')
             sys.exit(1)

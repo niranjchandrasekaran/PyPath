@@ -8,9 +8,20 @@ from parameter.sidechain import SideChain
 class BuildHessian(object):
 
     def __init__(self):
+        """
+        Builds the Hessian matrices
+        """
         pass
 
     def hessian(self, coord, pdb, calpha):
+        """
+        Builds the hessian matrix
+
+        :param coord: coordinates of the end state
+        :param pdb: pdb object with pdb properties
+        :param calpha: True for CA only simulation and False for all atom simulation
+        :return: hessian matrix
+        """
         if calpha:
             hessian = self.hessian_amweh(coord, pdb.natoms, pdb.aaname)
         else:
@@ -19,6 +30,13 @@ class BuildHessian(object):
         return hessian
 
     def hessian_all_atom(self, coord, pdb):
+        """
+        Computes the all atom hessian matrix
+
+        :param coord: coordinates of the end state
+        :param pdb: pdb object with pdb properties
+        :return: returns the all atom hessian matrix
+        """
         anm = self.hessian_anm(coord, pdb.natoms)
         torsion_backbone = self.hessian_backbone_torsional(coord, pdb.atname, pdb.natoms)
         torsion_sidechain = self.hessian_sidechain_torsional(coord, pdb.atname, pdb.aaname, pdb.aano, pdb.natoms)
@@ -33,6 +51,13 @@ class BuildHessian(object):
         return hessian
 
     def hessian_anm(self, coord, natoms):
+        """
+        Computes the ANM hessian matrix
+
+        :param coord: coordinates of the end state
+        :param natoms: number of atoms in the structure
+        :return: returns the ANM hessian
+        """
         constant = Constant()
         hessian = [[0 for y in range(constant.dim * natoms)] for x in range(constant.dim * natoms)]
         distance = squareform(pdist(np.asarray(coord), 'euclidean'))
@@ -54,6 +79,14 @@ class BuildHessian(object):
         return hessian
 
     def hessian_backbone_torsional(self, coord, atom_name, natoms):
+        """
+        Computes the torsional hessian of backbone atoms
+
+        :param coord: coordinates of the end state
+        :param atom_name: list of atoms names in the structure
+        :param natoms: number of atoms in the structure
+        :return: returns the torsional hessian of backbone atoms
+        """
         constant = Constant()
         backbone = ['N', 'CA', 'C']
         hessian = [[0 for y in range(constant.dim * natoms)] for x in range(constant.dim * natoms)]
@@ -93,6 +126,16 @@ class BuildHessian(object):
         return hessian
 
     def hessian_sidechain_torsional(self, coord, atom_name, amino_acid, amino_acid_no, natoms):
+        """
+        Computes the torsional hessian of amino acid side chain
+
+        :param coord: coordinates of the end state
+        :param atom_name: list of names of all atoms in the structure
+        :param amino_acid: list of names of all amino acids in the structure
+        :param amino_acid_no: list of numbers of all amino acids in the structure
+        :param natoms: number of atoms in the structure
+        :return: returns the torsional hessian of the amino acid sidechain atoms
+        """
         constant = Constant()
         sidechain = SideChain()
         amino_acid_list = ['ALA', 'CYS', 'ASP', 'GLU', 'PHE', 'GLY', 'HIS', 'ILE', 'LYS', 'LEU', 'MET', 'ASN', 'PRO',
@@ -140,6 +183,12 @@ class BuildHessian(object):
         return hessian
 
     def torsional_hessian(self, coord):
+        """
+        Computes the hessian matrix a tetrad
+
+        :param coord: coordinates of the tetrad atoms
+        :return: returns the tetrad hessian
+        """
         x1, y1, z1 = coord[0]
         x2, y2, z2 = coord[1]
         x3, y3, z3 = coord[2]
@@ -217,6 +266,14 @@ class BuildHessian(object):
         return hess
 
     def hessian_amweh(self, coord, natoms, amino_acid):
+        """
+        Calculate the Amber based Mass Weighted Empirical Hessian
+
+        :param coord: coordinates of the end state
+        :param natoms: number of atoms in the structure
+        :param amino_acid: list of names of amino acids in the structure
+        :return: returns the amweh hessian
+        """
         constant = Constant()
         mass = Mass()
         hessian = [[0 for y in range(constant.dim * natoms)] for x in range(constant.dim * natoms)]

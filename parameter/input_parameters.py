@@ -1,6 +1,9 @@
 class Parameters(object):
 
     def __init__(self, args):
+        """
+        Assigns the input parameters for the simulations to variables
+        """
         self.n_conf = args.nconf
 
         if args.calpha:

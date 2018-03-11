@@ -1,9 +1,18 @@
 class Mass(object):
 
     def __init__(self):
+        """
+        Computes the mass of atoms and amino acids
+        """
         pass
 
     def amino_acid_mass(self, amino_acid):
+        """
+        Returns the mass of the amino acid
+
+        :param amino_acid: Three letter amino acid name
+        :return: returns mass of the amino acid
+        """
         mass_list = {'ALA': 71.00788,
                      'CYS': 103.1388,
                      'ASP': 115.0886,
@@ -31,6 +40,12 @@ class Mass(object):
                 return mass_list[mass]
 
     def atom_mass(self, atom):
+        """
+        Returns the mass of the atom
+
+        :param atom: Single letter amino acid name
+        :return: returns the mass of the atom
+        """
         mass_list = {'C': 12.08, 'N': 14.01, 'O': 15.99, 'M': 24.31, 'P': 30.97, 'S': 32.06, 'Z': 65.38}
 
         for mass in mass_list:

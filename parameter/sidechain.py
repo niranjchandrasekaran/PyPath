@@ -4,6 +4,15 @@ class SideChain(object):
         pass
 
     def amino_acid(self, amino_acid, atom_list, start, end):
+        """
+        Returns all the side chain tetrads atom numbers of an amino acid, that contribute to the torsional potential.
+
+        :param amino_acid: three letter amino acid name
+        :param atom_list:
+        :param start: atom number of the first atom of the amino acid
+        :param end: atom number of the last atom of the amino acid
+        :return: list of tetrad atom numbers
+        """
         if amino_acid == 'CYS':
             tetrads = [('N', 'CA', 'CB', 'SG')]
         elif amino_acid == 'ASP':

@@ -4,6 +4,12 @@ import numpy as np
 class Align(object):
 
     def __init__(self, static, moving):
+        """
+        Align two structures
+
+        :param static: the reference structure
+        :param moving: the structure to the aligned to the reference
+        """
         sup = SVDSuperimposer()
         sup.set(np.asarray(static), np.asarray(moving))
         sup.run()

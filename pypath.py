@@ -33,12 +33,16 @@ if __name__ == '__main__':
     parameters = Parameters(args)
     constant = Constant()
 
+    ####Reading end states####
+
     pdb_left = PDBRead(args.start, parameters.c_alpha)
     pdb_right = PDBRead(args.end, parameters.c_alpha)
 
     print('\nCoordinates have been read\n')
 
     LengthCheck(pdb_left.natoms, pdb_right.natoms)
+
+    ####Aligning the end states####
 
     align = Align(pdb_left.coord, pdb_right.coord)
 
@@ -50,12 +54,16 @@ if __name__ == '__main__':
     flog.write('Final state = %s\n\n' % pdb_right.name)
     flog.write('The RMSD between the two structures is %f\n\n' % align.rms)
 
+    ####Building Hessian matrices####
+
     build_hessian = BuildHessian()
 
     hessian_left = build_hessian.hessian(aligned_left, pdb_left, parameters.c_alpha)
     hessian_right = build_hessian.hessian(aligned_right, pdb_right, parameters.c_alpha)
 
     print('@> The Hessian matrices have been computed.\n')
+
+    ####Thermodynamics####
 
     thermo = ThermoDynamics()
 
@@ -67,13 +75,17 @@ if __name__ == '__main__':
     flog.write('Energy left = %2.3f\n\n' % energy_left)
     flog.write('Energy right = %2.3f\n\n' % energy_right)
 
+    ####Eigen decomposition####
+
     eval_left, evec_left = sp.eigh(hessian_left, eigvals=(0, (pdb_left.natoms * constant.dim) - 1))
     eval_right, evec_right = sp.eigh(hessian_right, eigvals=(0, (pdb_right.natoms * constant.dim) - 1))
 
     print('@> The Eigenvalues and the Eigenvectors have been computed\n')
-    print('@> Number of modes: %d\n' % (constant.dim*pdb_left.natoms))
+    print('@> Number of modes: %d\n' % (constant.dim * pdb_left.natoms))
 
     path_time = Time()
+
+    ####Transition####
 
     tbar_left, force_constant_left = path_time.time_to_transition_state(eval_left)
     tbar_right, force_constant_right = path_time.time_to_transition_state(eval_right)
@@ -88,12 +100,14 @@ if __name__ == '__main__':
     energy_left = thermo.energy(hessian_left, transition.work_left)
     energy_right = thermo.energy(hessian_right, transition.work_right)
 
-    flog.write('The difference in energy between the two wells is %2.3f\n' % float(energy_right-energy_left))
+    flog.write('The difference in energy between the two wells is %2.3f\n' % float(energy_right - energy_left))
     flog.write('\ntbar left = %.3f\n' % tbar_left)
     flog.write('\ntbar right = %.3f\n' % tbar_right)
     flog.write('\nLeft Action: %+2.3f\n' % transition.action_left)
     flog.write('\nRight Action: %+2.3f\n' % transition.action_right)
     flog.write('\nTotal Action: %+2.3f\n' % (transition.action_left + transition.action_right))
+
+    ####Printing transition state and trajectory####
 
     PDBWrite(transition.xbar.reshape(pdb_left.natoms, constant.dim), pdb_left, 'trans.pdb')
 
@@ -103,4 +117,4 @@ if __name__ == '__main__':
     file_print = FilePrint()
     file_print.print_multi_array(np.column_stack((t_series, energy_series)), 'path-energy')
 
-    print('Total time taken %2.3fs\n' % (time.time()-start_time))
+    print('Total time taken %2.3fs\n' % (time.time() - start_time))

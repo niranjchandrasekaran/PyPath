@@ -10,6 +10,12 @@ class Time(object):
         pass
 
     def time_to_transition_state(self, eigenvalue):
+        """
+        Computes the average force constant and therefore the time to transition state
+
+        :param eigenvalue: Eigenvalue of the hessian
+        :return: returns the average force constant and the time to transition state
+        """
         if len(eigenvalue) > 6:
             skip = 6
         else:
@@ -26,6 +32,18 @@ class Time(object):
         return 7.0 / average_force_constant, average_force_constant
 
     def time_steps(self, tbar_left, tbar_right, fc_left, fc_right, energy_left, energy_right, nconf):
+        """
+        Calculates the time steps at which the intermediate structures have a particular value of energy
+
+        :param tbar_left: time to transition state for the initial state
+        :param tbar_right: time to transition state for the final state
+        :param fc_left: average force constant of the initial state
+        :param fc_right: average force constant of the final state
+        :param energy_left: transition state energy relative to the initial state
+        :param energy_right: transition state energy relative to the final state
+        :param nconf: number of conformations in the trajectory including the end states
+        :return: returns the time and energy series for the various conformations in the trajectory
+        """
         intermediate = nconf - 2
 
         step_size = 2.0 / (intermediate + 1)
@@ -71,6 +89,22 @@ class Transition(object):
 
     def __init__(self, tbar_left, tbar_right, fc_left, fc_right, eval_left, eval_right, evec_left, evec_right,
                  coord_left, coord_right, t_series, natoms):
+        """
+        Computes the transition state structure and the trajectory
+
+        :param tbar_left: time to transition state for the initial state
+        :param tbar_right: time to transition state for the final state
+        :param fc_left: average force constant for the initial state
+        :param fc_right: average force constant for the final state
+        :param eval_left: eigenvalue of the initial state hessian matrix
+        :param eval_right: eigenvalue of the final state hessian matrix
+        :param evec_left: eigenvector of the initial state hessian matrix
+        :param evec_right: eigenvector of the final state hessian matrix
+        :param coord_left: coordinates of the initial state
+        :param coord_right: coordinates of the final state
+        :param t_series: time series of the trajectory
+        :param natoms: number of atoms in both the end states
+        """
         self.tbar_left = tbar_left
         self.tbar_right = tbar_right
         self.t_series = t_series
@@ -95,6 +129,11 @@ class Transition(object):
         self.trajectory_coord = self.trajectory()
 
     def transition_state(self):
+        """
+        Computes the transition state and associated parameters
+        :return: returns the transition state, work vector relative to both the end states and
+        the action relative to the end states
+        """
         constant = Constant()
         thermo = ThermoDynamics()
 
@@ -154,6 +193,10 @@ class Transition(object):
         return xbar, work_left, work_right, action_left, action_right
 
     def trajectory(self):
+        """
+        Computes the transition trajectory
+        :return: returns the trajectory
+        """
         constant = Constant()
         coord = []
         dimensions = self.natoms * constant.dim

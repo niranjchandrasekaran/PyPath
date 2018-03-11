@@ -1,6 +1,13 @@
 class PDBWrite(object):
 
     def __init__(self, coord, pdb, filename):
+        """
+        Write PDB structure to file
+
+        :param coord: coordinate of the structure
+        :param pdb: pdb object
+        :param filename: output file name
+        """
         fout = open(filename, 'w')
 
         for atom in range(pdb.natoms):
@@ -17,7 +24,13 @@ class PDBWrite(object):
 class PDBTrajectoryWrite(object):
 
     def __init__(self, coord, pdb, filename):
+        """
+        Write PDB trajectory
 
+        :param coord: coordinate of the trajectory
+        :param pdb: pdb object
+        :param filename: output file name
+        """
         fout = open(filename, 'w')
 
         for conf in range(len(coord)):
