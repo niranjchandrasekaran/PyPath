@@ -1,7 +1,3 @@
-# PyPath
-
-### Program to calculate the most probable pathway connecting two equilibrium states of a biomolecule
-
 Given the PDB structures of two equilibrium states of a protein, the program computes the most probable path 
 (minimum Onsager-Machlup action path). PyPath uses a Anisotropic Network Model based energy function to describe 
 the biomolecular systems. PyPath is extremely fast and can be used to quickly determine the dynamics of protein 
