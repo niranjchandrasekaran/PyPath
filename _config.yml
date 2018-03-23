@@ -1,4 +1,4 @@
 theme: jekyll-theme-hacker
 title: PyPath
-description: Protein Dynamics simulation tool
+description: Program to calculate the most probable pathway connecting two equilibrium states of a biomolecule
 show_downloads: true
