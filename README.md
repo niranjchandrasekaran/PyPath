@@ -1,4 +1,4 @@
-Given the PDB structures of two equilibrium states of a protein, the program computes the most probable path 
+Given the PDB structures of two equilibrium states of a biomolecule, the program computes the most probable path 
 (minimum Onsager-Machlup action path). PyPath uses a Anisotropic Network Model based energy function to describe 
 the biomolecular systems. PyPath is extremely fast and can be used to quickly determine the dynamics of protein 
 and DNA molecules before venturing into more detailed molecular dynamics simulation algorithms.
@@ -88,4 +88,4 @@ _path-energy_: energy of each structure along the trajectory represented as time
 
 - For large systems, all atom simulation is resource intensive.
 
-- Since PyPath works with stable equilibrium states of proteins, studying the dynamics of proteins that are unfolded may not be possible with this program
+- Since PyPath works with stable equilibrium states of biomolecules, studying the dynamics of biomolecules that are unfolded may not be possible with this program
