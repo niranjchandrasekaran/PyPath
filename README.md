@@ -6,7 +6,7 @@ and DNA molecules before venturing into more detailed molecular dynamics simulat
 #### Resources
 
 The theory behind PyPath is described in detail in 
-[Chandrasekaran and Carter 2017](https://aca.scitation.org/doi/10.1063/1.4976142), 
+[Chandrasekaran and Carter (2017)](https://aca.scitation.org/doi/10.1063/1.4976142), 
 [Chandrasekaran et al. (2016)](http://aca.scitation.aip.org/content/aca/journal/sdy/3/1/10.1063/1.4941599) 
 and [Franklin et. al (2007)](http://nar.oxfordjournals.org/content/35/suppl_2/W477)
 
