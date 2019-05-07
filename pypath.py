@@ -32,6 +32,7 @@ args = parser.parse_args()
 if __name__ == '__main__':
     parameters = Parameters(args)
     constant = Constant()
+    file_print = FilePrint()
 
     ####Reading end states####
 
@@ -83,6 +84,15 @@ if __name__ == '__main__':
     print('@> The Eigenvalues and the Eigenvectors have been computed\n')
     print('@> Number of modes: %d\n' % (constant.dim * pdb_left.natoms))
 
+    if parameters.eval:
+        eval_fname = args.eval
+
+        file_print.print_array(eval_left, eval_fname + '_eval_left')
+        file_print.print_array(eval_right, eval_fname + '_eval_right')
+
+        file_print.print_multi_array(evec_left, eval_fname + '_evec_left')
+        file_print.print_multi_array(evec_right, eval_fname + '_evec_right')
+
     path_time = Time()
 
     ####Transition####
@@ -114,7 +124,6 @@ if __name__ == '__main__':
     PDBTrajectoryWrite(transition.trajectory_coord.reshape(parameters.n_conf, pdb_left.natoms, constant.dim), pdb_left,
                        'trajectory.pdb')
 
-    file_print = FilePrint()
     file_print.print_multi_array(np.column_stack((t_series, energy_series)), 'path-energy')
 
     print('Total time taken %2.3fs\n' % (time.time() - start_time))
