@@ -9,12 +9,13 @@ class PDBRead(object):
         """
         with open(filename, 'r') as fopen:
             data = [line.rstrip().split() for line in fopen if
-                   not line.rstrip() == 'TER' and not line.rstrip() == 'ENDMDL']
+                   not line.rstrip() == 'TER' and not line.rstrip() == 'ENDMDL' and not line.rstrip() == 'END']
 
         if calpha:
             pdb = [data[line] for line in range(len(data)) if (data[line][2].rstrip()).lstrip() == 'CA']
         else:
             pdb = data
+        print(pdb)
         self.name = filename[:filename.index('.pdb')].split('/')[-1]
         self.atno = [int(pdb[atom][1]) for atom in range(len(pdb))]
         self.atname = [(pdb[atom][2].rstrip()).lstrip() for atom in range(len(pdb))]
