@@ -2,6 +2,7 @@ import numpy as np
 from parameter.constants import Constant
 from math import *
 from path.thermo import ThermoDynamics
+from tqdm import tqdm
 
 
 class Time(object):
@@ -203,7 +204,7 @@ class Transition(object):
 
         xlr = [[0 for x in range(dimensions)] for x in range(dimensions)]
 
-        for step in range(len(self.t_series)):
+        for step in tqdm(range(len(self.t_series))):
             coord.append([])
             for dim in range(dimensions):
                 if self.t_series[step] < self.tbar_left:

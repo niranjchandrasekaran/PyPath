@@ -3,6 +3,7 @@ from scipy.spatial.distance import pdist, squareform
 import numpy as np
 from parameter.mass import Mass
 from parameter.sidechain import SideChain
+from tqdm import tqdm
 
 
 class BuildHessian(object):
@@ -279,7 +280,7 @@ class BuildHessian(object):
         hessian = [[0 for y in range(constant.dim * natoms)] for x in range(constant.dim * natoms)]
         distance = squareform(pdist(np.asarray(coord), 'euclidean'))
 
-        for atom_i in range(natoms):
+        for atom_i in tqdm(range(natoms)):
             for atom_j in range(natoms):
                 if atom_i == atom_j:
                     continue
