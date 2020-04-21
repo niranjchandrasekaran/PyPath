@@ -20,6 +20,7 @@ The libraries can be downloaded from the following links
 - [Numpy](http://www.numpy.org/)
 - [Scipy](http://www.scipy.org/)
 - [Biopython](http://biopython.org/wiki/Main_Page)
+- [tqdm](https://github.com/tqdm/tqdm)
 
 #### Running PyPath
 
