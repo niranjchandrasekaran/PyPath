@@ -15,7 +15,6 @@ class PDBRead(object):
             pdb = [data[line] for line in range(len(data)) if (data[line][2].rstrip()).lstrip() == 'CA']
         else:
             pdb = data
-        print(pdb)
         self.name = filename[:filename.index('.pdb')].split('/')[-1]
         self.atno = [int(pdb[atom][1]) for atom in range(len(pdb))]
         self.atname = [(pdb[atom][2].rstrip()).lstrip() for atom in range(len(pdb))]
