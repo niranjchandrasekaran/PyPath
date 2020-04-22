@@ -39,7 +39,7 @@ if __name__ == '__main__':
     pdb_left = PDBRead(args.start, parameters.c_alpha)
     pdb_right = PDBRead(args.end, parameters.c_alpha)
 
-    print('\nCoordinates have been read\n')
+    print('Coordinates have been read\n')
 
     LengthCheck(pdb_left.natoms, pdb_right.natoms)
 
@@ -59,10 +59,12 @@ if __name__ == '__main__':
 
     build_hessian = BuildHessian()
 
+    print('@> Computing Hessian matrices.\n')
+
     hessian_left = build_hessian.hessian(aligned_left, pdb_left, parameters.c_alpha)
     hessian_right = build_hessian.hessian(aligned_right, pdb_right, parameters.c_alpha)
 
-    print('@> The Hessian matrices have been computed.\n')
+    print('\n@> The Hessian matrices have been computed.\n')
 
     ####Thermodynamics####
 
@@ -103,6 +105,8 @@ if __name__ == '__main__':
     t_series, energy_series = path_time.time_steps(tbar_left, tbar_right, force_constant_left, force_constant_right,
                                                    energy_left, energy_right, parameters.n_conf)
 
+    print('@> Computing transition state and trajectory.\n')
+
     transition = Transition(tbar_left, tbar_right, force_constant_left, force_constant_right, eval_left,
                             eval_right, evec_left, evec_right, aligned_left, aligned_right, t_series,
                             pdb_left.natoms)
@@ -126,4 +130,4 @@ if __name__ == '__main__':
 
     file_print.print_multi_array(np.column_stack((t_series, energy_series)), 'path-energy')
 
-    print('Total time taken %2.3fs\n' % (time.time() - start_time))
+    print('\nTotal time taken %2.3fs\n' % (time.time() - start_time))
