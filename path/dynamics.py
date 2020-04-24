@@ -146,30 +146,28 @@ class Transition(object):
         s_right = [[0 for x in range(dimensions)] for x in range(dimensions)]
 
         for i in range(dimensions):
+            b_left[i][i] = self.eval1[i]
+            a_right[i][i] = -self.eval2[i]
+
+        for i in range(dimensions):
             if self.eval1[i] < 0.000001:
                 b_left[i][i] = 1.0 / self.tbar_left
                 s_left[i][i] = b_left[i][i]
                 self.eval1[i] = 0
+            elif self.eval1[i] * self.tbar_left < 700 and self.eval1[i] * self.tbar_left > -700:
+                b_left[i][i] = self.eval1[i] * cosh(self.eval1[i] * self.tbar_left) / sinh(self.eval1[i] * self.tbar_left)
+                s_left[i][i] = self.eval1[i] * exp(self.eval1[i] * self.tbar_left) / sinh(self.eval1[i] * self.tbar_left)
             else:
-                try:
-                    b_left[i][i] = self.eval1[i] * cosh(self.eval1[i] * self.tbar_left) / sinh(
-                        self.eval1[i] * self.tbar_left)
-                    s_left[i][i] = self.eval1[i] * exp(self.eval1[i] * self.tbar_left) / sinh(
-                        self.eval1[i] * self.tbar_left)
-                except OverflowError:
-                    b_left[i][i] = self.eval1[i]
+                pass
             if self.eval2[i] < 0.000001:
-                a_right[i][i] = 1 / (self.tbar_right - self.tf)
+                a_right[i][i] = 1 / (self.tbar_left - self.tf)
                 s_right[i][i] = -a_right[i][i]
                 self.eval2[i] = 0
+            elif self.eval2[i] * (self.tbar_left - self.tf) > -700 and self.eval2[i] * (self.tbar_left - self.tf) < 700:
+                a_right[i][i] = self.eval2[i] * cosh(self.eval2[i] * (self.tbar_left - self.tf)) / sinh(self.eval2[i] * (self.tbar_left - self.tf))
+                s_right[i][i] = self.eval2[i] * exp(self.eval2[i] * (self.tf - self.tbar_left)) / (sinh(self.eval2[i] * (self.tf - self.tbar_left)))
             else:
-                try:
-                    a_right[i][i] = self.eval2[i] * cosh(self.eval2[i] * (self.tbar_left - self.tf)) / sinh(
-                        self.eval2[i] * (self.tbar_left - self.tf))
-                    s_right[i][i] = self.eval2[i] * exp(self.eval2[i] * (self.tf - self.tbar_left)) / (
-                        sinh(self.eval2[i] * (self.tf - self.tbar_left)))
-                except OverflowError:
-                    a_right[i][i] = -self.eval2[i]
+                pass
 
         den1 = np.dot(self.evec1, np.dot(b_left, self.evec1.T))
         den2 = np.dot(self.evec2, np.dot(a_right, self.evec2.T))
