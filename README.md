@@ -21,6 +21,7 @@ The libraries can be downloaded from the following links
 - [Scipy](http://www.scipy.org/)
 - [Biopython](http://biopython.org/wiki/Main_Page)
 - [tqdm](https://github.com/tqdm/tqdm)
+- [pandas](https://pandas.pydata.org/)
 
 #### Running PyPath
 
@@ -82,6 +83,8 @@ _trans.pdb_: transition state PDB file.
 _trajectory.pdb_: trajectory PDB file with nconf number of frames
 
 _path-energy_: energy of each structure along the trajectory represented as time points
+
+_missing_sidechain_atoms.txt_: this file is generated if the atom necessary to build the Hessian are missing
 
 #### Things to remember
 
