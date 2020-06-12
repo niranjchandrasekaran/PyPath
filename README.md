@@ -84,7 +84,7 @@ _trajectory.pdb_: trajectory PDB file with nconf number of frames
 
 _path-energy_: energy of each structure along the trajectory represented as time points
 
-_missing_sidechain_atoms.txt_: this file is generated if the atom necessary to build the Hessian are missing
+_missing_sidechain_atoms.txt_: this file is generated if the atoms necessary to build the Hessian are missing
 
 #### Things to remember
 
