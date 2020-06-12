@@ -11,6 +11,7 @@ from path.thermo import ThermoDynamics
 from path.dynamics import Time, Transition
 from report.length_check import LengthCheck
 from report.fileprint import FilePrint
+from report.atom_check import AtomCheck
 import scipy.linalg as sp
 import numpy as np
 import time
@@ -42,6 +43,9 @@ if __name__ == '__main__':
     print('Coordinates have been read\n')
 
     LengthCheck(pdb_left.natoms, pdb_right.natoms)
+
+    AtomCheck(pdb_left, parameters.c_alpha)
+    AtomCheck(pdb_right, parameters.c_alpha)
 
     ####Aligning the end states####
 
