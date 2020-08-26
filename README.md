@@ -12,16 +12,15 @@ and [Franklin et. al (2007)](http://nar.oxfordjournals.org/content/35/suppl_2/W4
 
 #### Dependencies
 
-PyPath is written in python and it relies on libraries that are a part of the _NumPy_, _SciPy_ and _Biopython_ 
-packages. 
+PyPath is written in python and it relies on several python libraries which can be downloaded and installed using the 
+following command
 
-The libraries can be downloaded from the following links
+```
+conda env create --force --file environment.yml
+conda activate pypath
+```
 
-- [Numpy](http://www.numpy.org/)
-- [Scipy](http://www.scipy.org/)
-- [Biopython](http://biopython.org/wiki/Main_Page)
-- [tqdm](https://github.com/tqdm/tqdm)
-- [pandas](https://pandas.pydata.org/)
+The above commands requires [Anaconda](https://www.anaconda.com/products/individual) to be installed.
 
 #### Running PyPath
 
@@ -40,6 +39,7 @@ optional arguments:
   -nconf      The number of conformations in the trajectory [default: 3]
   -calpha     If only C-alpha atoms are to be used in the simulation 
               [default: all atom]
+  -torsion    If torsion potential should be included in the all atom potential [default: all atom anm]
   -eval       print eigenvalues and eigenvectors to file
 
 ```
@@ -65,6 +65,12 @@ the frames specified includes the end states.
 By default, all atoms in the system are included in the simulation. By using the -calpha flag, only the CA atoms 
 can be simulated. This is particularly useful for large systems as results from PyPath indicate that for large 
 systems, CA only simulation generates results comparable to all atom simulations.
+
+##### Potential Energy
+
+By default the all atom simulations use the ANM potential. When the -torsion flag is used, the torsional potential is 
+also included in the all atom potential. Though including the torsional potential improves the accuracy of the all atom 
+potential, for large systems, computing the torsional potential can be computationally expensive.
 
 ##### Eigenvalues and Eigenvectors
 

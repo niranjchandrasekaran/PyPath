@@ -26,6 +26,8 @@ parser.add_argument('-nconf', metavar='', default=3, type=int,
                     help='The number of conformations in the trajectory [default: 3]')
 parser.add_argument('-calpha', action='store_true',
                     help='If only C-alpha atoms are to be used in the simulation [default: all atom]')
+parser.add_argument('-torsion', action='store_true',
+                    help='If torsion potential should be included in the all atom potential [default: all atom anm]')
 parser.add_argument('-eval', metavar='', help='print eigenvalues and eigenvectors to file')
 
 args = parser.parse_args()
@@ -65,8 +67,8 @@ if __name__ == '__main__':
 
     print('@> Computing Hessian matrices.\n')
 
-    hessian_left = build_hessian.hessian(aligned_left, pdb_left, parameters.c_alpha)
-    hessian_right = build_hessian.hessian(aligned_right, pdb_right, parameters.c_alpha)
+    hessian_left = build_hessian.hessian(aligned_left, pdb_left, parameters.c_alpha, parameters.torsion)
+    hessian_right = build_hessian.hessian(aligned_right, pdb_right, parameters.c_alpha, parameters.torsion)
 
     print('\n@> The Hessian matrices have been computed.\n')
 

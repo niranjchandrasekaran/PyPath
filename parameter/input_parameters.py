@@ -15,3 +15,8 @@ class Parameters(object):
             self.eval = True
         else:
             self.eval = False
+
+        if args.torsion:
+            self.torsion = True
+        else:
+            self.torsion = False

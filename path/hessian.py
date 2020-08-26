@@ -14,20 +14,22 @@ class BuildHessian(object):
         """
         pass
 
-    def hessian(self, coord, pdb, calpha):
+    def hessian(self, coord, pdb, calpha, torsion):
         """
         Builds the hessian matrix
 
         :param coord: coordinates of the end state
         :param pdb: pdb object with pdb properties
         :param calpha: True for CA only simulation and False for all atom simulation
+        :param torsion: True if torsion potential should be included and False for ANM only all atom simulation
         :return: hessian matrix
         """
         if calpha:
             hessian = self.hessian_amweh(coord, pdb.natoms, pdb.aaname)
-        else:
+        elif torsion:
             hessian = self.hessian_all_atom(coord, pdb)
-
+        else:
+            hessian = self.hessian_anm(coord, pdb.natoms)
         return hessian
 
     def hessian_all_atom(self, coord, pdb):
